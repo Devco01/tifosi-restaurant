@@ -11,7 +11,6 @@ Le projet contient les scripts SQL suivants :
   - Création de l'utilisateur avec les droits d'administration
   - Création des tables avec leurs contraintes
   - Mise en place des relations entre les tables
-  - Implémentation des contraintes de sécurité
 
 - `scripts/insert_data.sql` :
   - Insertion des données de test issues des fichiers Excel fournis :
@@ -20,11 +19,17 @@ Le projet contient les scripts SQL suivants :
     - boisson.xlsx
     - marque.xlsx
 
+- `scripts/test_queries.sql` :
+  - 10 requêtes de test pour vérifier :
+    - La structure de la base
+    - Les relations entre les tables
+    - Les données insérées
+    - Les fonctionnalités demandées
+
 - `scripts/backup.sql` :
-  - Sauvegarde complète de la base de données
-  - Structure des tables
-  - Données
-  - Utilisateur et privilèges
+  - Sauvegarde de la structure de la base
+  - Sauvegarde des données de toutes les tables
+  - Sauvegarde des droits utilisateur
 
 ## Installation avec MySQL Workbench
 
@@ -39,12 +44,17 @@ Le projet contient les scripts SQL suivants :
    b. Copier-coller le contenu de `insert_data.sql`
    - Cliquer sur l'éclair ⚡ pour exécuter
    
-   c. Copier-coller le contenu de `backup.sql`
-   - Cliquer sur l'éclair ⚡ pour exécuter
+   c. Copier-coller le contenu de `test_queries.sql`
+   - Cliquer sur l'éclair ⚡ pour exécuter chaque requête
+   
+   d. (Optionnel) Copier-coller le contenu de `backup.sql`
+   - Cliquer sur l'éclair ⚡ pour sauvegarder la base
 
 5. Vérification :
    - Dans le navigateur de gauche, cliquer sur l'icône "refresh" 
    - La base "tifosi" devrait apparaître avec toutes ses tables
+   - Les requêtes de test devraient afficher leurs résultats
+   - Le backup devrait afficher la structure et les données
 
 ## Auteur
 
