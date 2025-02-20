@@ -20,97 +20,97 @@ DROP TABLE IF EXISTS ingredient;
 DROP TABLE IF EXISTS client;
 
 -- Table des marques de boissons
+-- Contrainte d'unicité sur le nom pour éviter les doublons
 CREATE TABLE marque (
     id_marque INT PRIMARY KEY AUTO_INCREMENT,
     nom VARCHAR(50) NOT NULL UNIQUE
-    -- Contrainte d'unicité sur le nom pour éviter les doublons
 );
 
 -- Table des boissons avec leur marque associée
+-- Clé étrangère pour garantir l'intégrité référentielle avec la table marque
 CREATE TABLE boisson (
     id_boisson INT PRIMARY KEY AUTO_INCREMENT,
     nom VARCHAR(50) NOT NULL,
     id_marque INT NOT NULL,
     FOREIGN KEY (id_marque) REFERENCES marque(id_marque)
-    -- Clé étrangère pour garantir l'intégrité référentielle avec la table marque
 );
 
 -- Table des ingrédients disponibles
+-- Contrainte d'unicité pour éviter les doublons d'ingrédients
 CREATE TABLE ingredient (
     id_ingredient INT PRIMARY KEY AUTO_INCREMENT,
     nom VARCHAR(50) NOT NULL UNIQUE
-    -- Contrainte d'unicité pour éviter les doublons d'ingrédients
 );
 
 -- Table des clients du restaurant
+-- Contrainte d'unicité sur l'email pour éviter les doublons de compte
 CREATE TABLE client (
     id_client INT PRIMARY KEY AUTO_INCREMENT,
     nom VARCHAR(50) NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE,
-    -- Contrainte d'unicité sur l'email pour éviter les doublons de compte
     code_postal INT NOT NULL
 );
 
 -- Table des menus proposés
+-- Contrainte CHECK pour garantir un prix positif
 CREATE TABLE menu (
     id_menu INT PRIMARY KEY AUTO_INCREMENT,
     nom VARCHAR(50) NOT NULL,
     prix DECIMAL(5,2) NOT NULL CHECK (prix > 0)
-    -- Contrainte CHECK pour garantir un prix positif
 );
 
 -- Table des focaccias disponibles
+-- Contrainte d'unicité sur le nom pour éviter les doublons
+-- Contrainte CHECK pour garantir un prix positif
 CREATE TABLE focaccia (
     id_focaccia INT PRIMARY KEY AUTO_INCREMENT,
     nom VARCHAR(50) NOT NULL UNIQUE,
-    -- Contrainte d'unicité sur le nom pour éviter les doublons
     prix DECIMAL(5,2) NOT NULL CHECK (prix > 0)
-    -- Contrainte CHECK pour garantir un prix positif
 );
 
 -- Table de liaison entre focaccias et ingrédients
+-- Contrainte CHECK pour garantir une quantité positive
+-- Clé primaire composite pour éviter les doublons d'ingrédients dans une focaccia
+-- Clés étrangères pour garantir l'intégrité référentielle
 CREATE TABLE comprend (
     id_focaccia INT,
     id_ingredient INT,
     quantite INT NOT NULL CHECK (quantite > 0),
-    -- Contrainte CHECK pour garantir une quantité positive
     PRIMARY KEY (id_focaccia, id_ingredient),
-    -- Clé primaire composite pour éviter les doublons d'ingrédients dans une focaccia
     FOREIGN KEY (id_focaccia) REFERENCES focaccia(id_focaccia),
     FOREIGN KEY (id_ingredient) REFERENCES ingredient(id_ingredient)
-    -- Clés étrangères pour garantir l'intégrité référentielle
 );
 
 -- Table de liaison entre menus et focaccias
+-- Clé primaire composite pour éviter les doublons de focaccias dans un menu
+-- Clés étrangères pour garantir l'intégrité référentielle
 CREATE TABLE est_constitue (
     id_menu INT,
     id_focaccia INT,
     PRIMARY KEY (id_menu, id_focaccia),
-    -- Clé primaire composite pour éviter les doublons de focaccias dans un menu
     FOREIGN KEY (id_menu) REFERENCES menu(id_menu),
     FOREIGN KEY (id_focaccia) REFERENCES focaccia(id_focaccia)
-    -- Clés étrangères pour garantir l'intégrité référentielle
 );
 
 -- Table de liaison entre menus et boissons
+-- Clé primaire composite pour éviter les doublons de boissons dans un menu
+-- Clés étrangères pour garantir l'intégrité référentielle
 CREATE TABLE contient (
     id_menu INT,
     id_boisson INT,
     PRIMARY KEY (id_menu, id_boisson),
-    -- Clé primaire composite pour éviter les doublons de boissons dans un menu
     FOREIGN KEY (id_menu) REFERENCES menu(id_menu),
     FOREIGN KEY (id_boisson) REFERENCES boisson(id_boisson)
-    -- Clés étrangères pour garantir l'intégrité référentielle
 );
 
 -- Table des achats effectués par les clients
+-- Clé primaire composite incluant la date pour permettre plusieurs achats
+-- Clés étrangères pour garantir l'intégrité référentielle
 CREATE TABLE achete (
     id_client INT,
     id_menu INT,
     date_achat DATE NOT NULL,
     PRIMARY KEY (id_client, id_menu, date_achat),
-    -- Clé primaire composite incluant la date pour permettre plusieurs achats
     FOREIGN KEY (id_client) REFERENCES client(id_client),
     FOREIGN KEY (id_menu) REFERENCES menu(id_menu)
-    -- Clés étrangères pour garantir l'intégrité référentielle
 ); 

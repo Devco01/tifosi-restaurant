@@ -5,9 +5,6 @@
 * Date : Mars 2024
 */
 
--- Suppression de la base si elle existe
-DROP DATABASE IF EXISTS tifosi;
-
 -- Création de la base de données
 CREATE DATABASE IF NOT EXISTS tifosi;
 
