@@ -1,9 +1,15 @@
 /*
 * Projet : Tifosi - Restaurant de Street-Food italien
 * Fichier : create_schema.sql
-* Description : Création du schéma de la base de données
+* Description : Création de la base de données et de son schéma
 * Date : Mars 2024
 */
+
+-- Création de la base de données et de l'utilisateur
+CREATE DATABASE IF NOT EXISTS tifosi;
+CREATE USER IF NOT EXISTS 'tifosi'@'localhost' IDENTIFIED BY 'TifosiPass123!';
+GRANT ALL PRIVILEGES ON tifosi.* TO 'tifosi'@'localhost';
+FLUSH PRIVILEGES;
 
 USE tifosi;
 
