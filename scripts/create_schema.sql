@@ -18,6 +18,7 @@ DROP TABLE IF EXISTS achete;
 DROP TABLE IF EXISTS contient;
 DROP TABLE IF EXISTS est_constitue;
 DROP TABLE IF EXISTS comprend;
+DROP TABLE IF EXISTS appartient;
 DROP TABLE IF EXISTS focaccia;
 DROP TABLE IF EXISTS menu;
 DROP TABLE IF EXISTS boisson;
@@ -33,12 +34,9 @@ CREATE TABLE marque (
 );
 
 -- Table des boissons avec leur marque associée
--- Clé étrangère pour garantir l'intégrité référentielle avec la table marque
 CREATE TABLE boisson (
     id_boisson INT PRIMARY KEY AUTO_INCREMENT,
-    nom VARCHAR(50) NOT NULL,
-    id_marque INT NOT NULL,
-    FOREIGN KEY (id_marque) REFERENCES marque(id_marque)
+    nom VARCHAR(50) NOT NULL
 );
 
 -- Table des ingrédients disponibles
@@ -46,15 +44,6 @@ CREATE TABLE boisson (
 CREATE TABLE ingredient (
     id_ingredient INT PRIMARY KEY AUTO_INCREMENT,
     nom VARCHAR(50) NOT NULL UNIQUE
-);
-
--- Table des clients du restaurant
--- Contrainte d'unicité sur l'email pour éviter les doublons de compte
-CREATE TABLE client (
-    id_client INT PRIMARY KEY AUTO_INCREMENT,
-    nom VARCHAR(50) NOT NULL,
-    email VARCHAR(100) NOT NULL UNIQUE,
-    code_postal INT NOT NULL
 );
 
 -- Table des menus proposés
@@ -74,10 +63,15 @@ CREATE TABLE focaccia (
     prix DECIMAL(5,2) NOT NULL CHECK (prix > 0)
 );
 
+-- Table des clients
+CREATE TABLE client (
+    id_client INT PRIMARY KEY AUTO_INCREMENT,
+    nom VARCHAR(50) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    code_postal INT NOT NULL
+);
+
 -- Table de liaison entre focaccias et ingrédients
--- Contrainte CHECK pour garantir une quantité positive
--- Clé primaire composite pour éviter les doublons d'ingrédients dans une focaccia
--- Clés étrangères pour garantir l'intégrité référentielle
 CREATE TABLE comprend (
     id_focaccia INT,
     id_ingredient INT,
@@ -109,14 +103,22 @@ CREATE TABLE contient (
     FOREIGN KEY (id_boisson) REFERENCES boisson(id_boisson)
 );
 
--- Table des achats effectués par les clients
+-- Table de liaison entre achats et clients
 -- Clé primaire composite incluant la date pour permettre plusieurs achats
 -- Clés étrangères pour garantir l'intégrité référentielle
 CREATE TABLE achete (
     id_client INT,
-    id_menu INT,
+    id_focaccia INT,
     date_achat DATE NOT NULL,
-    PRIMARY KEY (id_client, id_menu, date_achat),
-    FOREIGN KEY (id_client) REFERENCES client(id_client),
-    FOREIGN KEY (id_menu) REFERENCES menu(id_menu)
+    PRIMARY KEY (id_client, id_focaccia, date_achat),
+    FOREIGN KEY (id_focaccia) REFERENCES focaccia(id_focaccia)
+);
+
+-- Table de liaison entre marques et boissons
+CREATE TABLE appartient (
+    id_marque INT,
+    id_boisson INT,
+    PRIMARY KEY (id_marque, id_boisson),
+    FOREIGN KEY (id_marque) REFERENCES marque(id_marque),
+    FOREIGN KEY (id_boisson) REFERENCES boisson(id_boisson)
 ); 

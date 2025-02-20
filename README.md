@@ -20,8 +20,11 @@ Le projet contient les scripts SQL suivants :
     - boisson.xlsx
     - marque.xlsx
 
-- `scripts/test_queries.sql` :
-  - 10 requêtes de test documentées
+- `scripts/backup.sql` :
+  - Sauvegarde complète de la base de données
+  - Structure des tables
+  - Données
+  - Utilisateur et privilèges
 
 ## Installation avec MySQL Workbench
 
@@ -36,13 +39,12 @@ Le projet contient les scripts SQL suivants :
    b. Copier-coller le contenu de `insert_data.sql`
    - Cliquer sur l'éclair ⚡ pour exécuter
    
-   c. Copier-coller le contenu de `test_queries.sql`
+   c. Copier-coller le contenu de `backup.sql`
    - Cliquer sur l'éclair ⚡ pour exécuter
 
 5. Vérification :
    - Dans le navigateur de gauche, cliquer sur l'icône "refresh" 
    - La base "tifosi" devrait apparaître avec toutes ses tables
-   - Les requêtes de test devraient afficher leurs résultats
 
 ## Auteur
 

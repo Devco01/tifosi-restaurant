@@ -2,11 +2,30 @@
 * Projet : Tifosi - Restaurant de Street-Food italien
 * Fichier : insert_data.sql
 * Description : Insertion des données de test
-* Source : Fichiers Excel fournis (focaccia.xlsx, ingredient.xlsx, boisson.xlsx, marque.xlsx)
+* Source : Fichiers Excel fournis
 * Date : Mars 2024
 */
 
 USE tifosi;
+
+-- Désactivation temporaire des contraintes de clés étrangères
+SET FOREIGN_KEY_CHECKS = 0;
+
+-- Nettoyage des tables dans l'ordre inverse des dépendances
+TRUNCATE TABLE achete;
+TRUNCATE TABLE contient;
+TRUNCATE TABLE est_constitue;
+TRUNCATE TABLE comprend;
+TRUNCATE TABLE appartient;  -- Nouvelle table
+TRUNCATE TABLE focaccia;
+TRUNCATE TABLE menu;
+TRUNCATE TABLE boisson;
+TRUNCATE TABLE marque;
+TRUNCATE TABLE ingredient;
+TRUNCATE TABLE client;      -- Table client restaurée
+
+-- Réactivation des contraintes de clés étrangères
+SET FOREIGN_KEY_CHECKS = 1;
 
 -- Insertion des marques
 INSERT INTO marque (nom) VALUES 
@@ -16,19 +35,40 @@ INSERT INTO marque (nom) VALUES
 ('Pepsico');
 
 -- Insertion des boissons
-INSERT INTO boisson (nom, id_marque) VALUES 
-('Coca-cola zéro', 1),
-('Coca-cola original', 1),
-('Fanta citron', 1),
-('Fanta orange', 1),
-('Capri-sun', 1),
-('Pepsi', 2),
-('Pepsi Max Zéro', 2),
-('Lipton zéro citron', 2),
-('Lipton Peach', 2),
-('Monster energy ultra gold', 3),
-('Monster energy ultra blue', 3),
-('Eau de source', 4);
+INSERT INTO boisson (nom) VALUES  -- Suppression de id_marque
+('Coca-cola zéro'),
+('Coca-cola original'),
+('Fanta citron'),
+('Fanta orange'),
+('Capri-sun'),
+('Pepsi'),
+('Pepsi Max Zéro'),
+('Lipton zéro citron'),
+('Lipton Peach'),
+('Monster energy ultra gold'),
+('Monster energy ultra blue'),
+('Eau de source');
+
+-- Insertion des relations marque-boisson
+INSERT INTO appartient (id_marque, id_boisson) VALUES
+(1, 1), -- Coca-cola - Coca-cola zéro
+(1, 2), -- Coca-cola - Coca-cola original
+(1, 3), -- Coca-cola - Fanta citron
+(1, 4), -- Coca-cola - Fanta orange
+(1, 5), -- Coca-cola - Capri-sun
+(2, 6), -- Pepsico - Pepsi
+(2, 7), -- Pepsico - Pepsi Max Zéro
+(2, 8), -- Pepsico - Lipton zéro citron
+(2, 9), -- Pepsico - Lipton Peach
+(3, 10), -- Monster - Monster energy ultra gold
+(3, 11), -- Monster - Monster energy ultra blue
+(4, 12); -- Cristalline - Eau de source
+
+-- Insertion des clients de test
+INSERT INTO client (nom, email, code_postal) VALUES
+('Dupont Jean', 'jean.dupont@email.com', 75001),
+('Martin Sophie', 'sophie.martin@email.com', 69001),
+('Bernard Paul', 'paul.bernard@email.com', 13001);
 
 -- Insertion des ingrédients
 INSERT INTO ingredient (nom) VALUES 
@@ -69,7 +109,7 @@ INSERT INTO focaccia (nom, prix) VALUES
 ('Américaine', 10.80),
 ('Paysanne', 12.80);
 
--- Insertion des relations focaccia-ingrédient avec les quantités spécifiées
+-- Insertion des relations focaccia-ingrédient avec quantités
 INSERT INTO comprend (id_focaccia, id_ingredient, quantite) VALUES 
 -- Mozaccia (id: 1)
 (1, 5, 200),  -- Base tomate
@@ -116,7 +156,7 @@ INSERT INTO comprend (id_focaccia, id_ingredient, quantite) VALUES
 (5, 25, 50),  -- Mozarella
 (5, 9, 20),   -- Cresson
 (5, 12, 80),  -- Jambon cuit
-(5, 7, 80),   -- Champignon
+(5, 7, 40),   -- Champignon
 (5, 18, 50),  -- Parmesan
 (5, 20, 1),   -- Poivre
 (5, 16, 10),  -- Olive noire
