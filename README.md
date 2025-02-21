@@ -26,11 +26,6 @@ Le projet contient les scripts SQL suivants :
     - Les données insérées
     - Les fonctionnalités demandées
 
-- `scripts/backup.sql` :
-  - Sauvegarde de la structure de la base
-  - Sauvegarde des données de toutes les tables
-  - Sauvegarde des droits utilisateur
-
 ## Installation avec MySQL Workbench
 
 1. Ouvrir MySQL Workbench
@@ -47,9 +42,6 @@ Le projet contient les scripts SQL suivants :
    c. Copier-coller le contenu de `test_queries.sql`
    - Cliquer sur l'éclair ⚡ pour exécuter chaque requête
    
-   d. (Optionnel) Copier-coller le contenu de `backup.sql`
-   - Cliquer sur l'éclair ⚡ pour sauvegarder la base
-
 5. Vérification :
    - Dans le navigateur de gauche, cliquer sur l'icône "refresh" 
    - La base "tifosi" devrait apparaître avec toutes ses tables
